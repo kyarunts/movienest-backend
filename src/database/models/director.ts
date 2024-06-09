@@ -5,6 +5,17 @@ export interface CreateDirectorAttributes {
   fullName: string;
 }
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Director:
+ *       type: object
+ *       properties:
+ *         fullName:
+ *           type: string
+ *           description: The full name of the director
+ */
 @Table({
   tableName: "directors",
 })

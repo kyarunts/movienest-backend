@@ -4,4 +4,4 @@ import movieController from "./movie/movie.controller";
 
 const api = Router().use(userController).use(movieController);
 
-export default Router().use("/api", api);
+export default Router().use(api);

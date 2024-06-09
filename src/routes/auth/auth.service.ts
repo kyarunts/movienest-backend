@@ -10,6 +10,37 @@ import {
 import constructError from "../../utils/constructError";
 import { comparePassword } from "../../utils/hashPassword";
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ISignUp:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: The user's email address
+ *         password:
+ *           type: string
+ *           description: The user's password
+ *         firstName:
+ *           type: string
+ *           nullable: true
+ *           description: The user's first name
+ *         lastName:
+ *           type: string
+ *           nullable: true
+ *           description: The user's last name
+ *       example:
+ *         email: johndoe@example.com
+ *         password: securePassword123
+ *         firstName: John
+ *         lastName: Doe
+ */
 export interface ISignUp {
   email: string;
   password: string;
@@ -17,6 +48,27 @@ export interface ISignUp {
   lastName: string | null;
 }
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ISignIn:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: The user's email address
+ *         password:
+ *           type: string
+ *           description: The user's password
+ *       example:
+ *         email: johndoe@example.com
+ *         password: securePassword123
+ */
 export interface ISignIn {
   email: string;
   password: string;
@@ -47,7 +99,11 @@ export const signUp = async (
     });
   }
 
-  user = await createUser(validatedValue);
+  try {
+    user = await createUser(validatedValue);
+  } catch (error) {
+    throw error;
+  }
 
   const accessToken = JWT.signJWT({ userId: user.id });
 

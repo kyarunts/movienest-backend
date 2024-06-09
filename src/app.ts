@@ -1,8 +1,11 @@
 import express, { json } from "express";
 import cors from "cors";
+import swaggerUI from "swagger-ui-express";
 
 import { config } from "dotenv";
 config();
+
+import { swaggerSpec } from "./docs/swagger";
 
 import { sequelize } from "./database/sequelize";
 
@@ -19,25 +22,24 @@ sequelize
   .authenticate()
   .then(() => {
     console.log("Database connection has been established successfully!");
-    return sequelize.sync({ force: true }); // Sync all models with database
+    return sequelize.sync({ force: false }); // Sync all models with database every time server restarts
   })
-  .catch((err) => console.error("Unable to connect to the database", err));
+  .catch((err) => console.error("Unable to co nnect to the database", err));
 
 app.use(cors());
 app.use(json());
 
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
+// Unprotected routes
 app.use("/api", authRoutes);
+
+// Protected routes
 app.use(authMiddleware);
-app.use(routes);
+app.use("/api", routes);
 
 app.use((err: IError | any, req: any, res: any, next: any) => {
-  console.error(err);
-
   res.status(err.errorCode).send(err);
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello, TypeScript Node Express!");
 });
 
 app.listen(port, () => {

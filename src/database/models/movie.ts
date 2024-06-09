@@ -20,6 +20,47 @@ interface CreateMovieAttributes {
   directorId: number | null;
 }
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Movie:
+ *       type: object
+ *       properties:
+ *         title:
+ *           type: string
+ *           description: The title of the movie
+ *         publishingYear:
+ *           type: integer
+ *           description: The publishing year of the movie
+ *         publishingCountry:
+ *           type: string
+ *           nullable: true
+ *           description: The publishing country of the movie
+ *         imageURL:
+ *           type: string
+ *           nullable: true
+ *           description: The URL of the movie's image
+ *         genre:
+ *           type: string
+ *           nullable: true
+ *           description: The genre of the movie
+ *         rating:
+ *           type: integer
+ *           minimum: 0
+ *           maximum: 10
+ *           nullable: true
+ *           description: The rating of the movie (0-10)
+ *         userId:
+ *           type: integer
+ *           description: The ID of the user who added the movie
+ *         directorId:
+ *           type: integer
+ *           nullable: true
+ *           description: The ID of the director of the movie
+ *         director:
+ *           $ref: '#/components/schemas/Director'
+ */
 @Table({
   tableName: "movies",
 })
@@ -53,8 +94,12 @@ export class Movie extends BaseModel<Movie, CreateMovieAttributes> {
   genre!: string | null;
 
   @Column({
-    type: DataType.DOUBLE,
+    type: DataType.INTEGER,
     allowNull: true,
+    validate: {
+      min: 0,
+      max: 10,
+    },
   })
   rating!: number | null;
 

@@ -9,6 +9,33 @@ interface CreateUserAttributes {
   lastName: string | null;
 }
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         firstName:
+ *           type: string
+ *           nullable: true
+ *           description: The user's first name
+ *         lastName:
+ *           type: string
+ *           nullable: true
+ *           description: The user's last name
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: The user's email address
+ *         password:
+ *           type: string
+ *           format: password
+ *           description: The user's password
+ *       required:
+ *         - email
+ *         - password
+ */
 @Table({
   tableName: "users",
 })
