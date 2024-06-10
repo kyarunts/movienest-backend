@@ -14,6 +14,7 @@ import { IError } from "./utils/constructError";
 import { authMiddleware } from "./middlewares/auth.middleware";
 import authRoutes from "./routes/auth/auth.controller";
 import routes from "./routes/routes";
+import { INTERNAL_ERROR_CODE } from "./utils/constants";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -29,7 +30,7 @@ sequelize
 app.use(cors());
 app.use(json());
 
-app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+app.use("/api/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 // Unprotected routes
 app.use("/api", authRoutes);
@@ -39,7 +40,8 @@ app.use(authMiddleware);
 app.use("/api", routes);
 
 app.use((err: IError | any, req: any, res: any, next: any) => {
-  res.status(err.errorCode).send(err);
+  console.error(err);
+  res.status(err.errorCode || INTERNAL_ERROR_CODE).send(err);
 });
 
 app.listen(port, () => {
