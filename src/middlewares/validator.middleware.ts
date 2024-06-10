@@ -54,7 +54,6 @@ export const validateGetMoviesQuery = (
         constructError({ message: `${(error as any).message}`, code: 400 })
       );
     }
-  
     queryString.rating = parsedRating;
   }
 

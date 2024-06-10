@@ -16,11 +16,11 @@ import {
 export const createMovieSchema = Joi.object({
   title: Joi.string().required(),
   publishingYear: Joi.number().integer().required(),
-  imageURL: Joi.string().optional(),
-  publishingCountry: Joi.string().optional(),
-  genre: Joi.string().optional(),
+  imageURL: Joi.string().optional().allow(""),
+  publishingCountry: Joi.string().optional().allow(""),
+  genre: Joi.string().optional().allow(""),
   rating: Joi.number().integer().min(0).max(10).optional(),
-  directorFullName: Joi.string().optional(),
+  directorFullName: Joi.string().optional().allow(""),
 });
 
 export const updateMovieSchema = Joi.object({
@@ -128,9 +128,12 @@ interface UpdateMovieParams {
  *     PaginationInfo:
  *       type: object
  *       properties:
- *         count:
+ *         totalCount:
  *           type: integer
  *           description: The total count of items
+ *         count:
+ *           type: integer
+ *           description: The total count of filtered items
  *         currentPage:
  *           type: integer
  *           description: The current page number
@@ -139,6 +142,7 @@ interface UpdateMovieParams {
  *           description: The total number of pages
  */
 interface PaginationInfo {
+  totalCount: number;
   count: number;
   currentPage: number;
   totalPages: number;
@@ -228,8 +232,10 @@ export const getMovies = async (
 
   let movies: Movie[];
   let count: number;
+  let totalCount: number;
 
   try {
+    totalCount = await Movie.count({ where: { userId } });
     count = await Movie.count({ where: { ...filterParams } });
 
     movies = await Movie.findAll({
@@ -241,7 +247,7 @@ export const getMovies = async (
         searchParams.sorting.direction && {
         order: [[searchParams.sorting.by, searchParams.sorting.direction]],
       }),
-      include: [{ model: Director }],
+      include: [{ model: Director, required: false }],
     });
   } catch (error) {
     console.error(error);
@@ -259,7 +265,10 @@ export const getMovies = async (
     totalPages = Math.ceil(count / searchParams.limit);
   }
 
-  return { movies, paginationInfo: { count, currentPage, totalPages } };
+  return {
+    movies,
+    paginationInfo: { totalCount, count, currentPage, totalPages },
+  };
 };
 
 export const createMovie = async (
