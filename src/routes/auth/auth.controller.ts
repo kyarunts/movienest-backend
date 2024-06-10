@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * @swagger
- * /signup:
+ * /api/signup:
  *   post:
  *     summary: Sign up a new user
  *     description: Create a new user account
@@ -51,7 +51,7 @@ router.post(
 
 /**
  * @swagger
- * /signin:
+ * /api/signin:
  *   post:
  *     summary: Signs in a user
  *     description: Signs in an existing user

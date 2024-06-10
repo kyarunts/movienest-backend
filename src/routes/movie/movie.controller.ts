@@ -11,7 +11,7 @@ const router = Router();
 
 /**
  * @swagger
- * /movies:
+ * /api/movies:
  *   get:
  *     summary: Get movies
  *     description: Retrieve movies based on provided filters and sorting options.
@@ -135,7 +135,7 @@ router.get(
 
 /**
  * @swagger
- * /movies/{ID}:
+ * /api/movies/{ID}:
  *   get:
  *     summary: Get a movie by ID
  *     description: Retrieve details of a movie by its ID.
@@ -208,7 +208,7 @@ router.get(
 
 /**
  * @swagger
- * /movies:
+ * /api/movies:
  *   post:
  *     summary: Create a new movie
  *     description: Create a new movie with the provided details.
@@ -258,7 +258,7 @@ router.post("/movies", async (req: any, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
- * /movies/{ID}:
+ * /api/movies/{ID}:
  *   put:
  *     summary: Update a movie by ID
  *     description: Update the details of a movie by its ID.

@@ -188,7 +188,7 @@ export const getMovie = async (
 export const getMovies = async (
   userId: number,
   searchParams: GetMoviesParams
-): Promise<{ movies: Movie[]; paginationInfo: PaginationInfo }> => {
+): Promise<{ movies: Movie[]; paginationInfo: PaginationInfo; }> => {
   let filterParams: any = { userId };
   if (searchParams.filters) {
     const { filters } = searchParams;
@@ -239,8 +239,8 @@ export const getMovies = async (
       ...(searchParams.sorting &&
         searchParams.sorting.by &&
         searchParams.sorting.direction && {
-          order: [[searchParams.sorting.by, searchParams.sorting.direction]],
-        }),
+        order: [[searchParams.sorting.by, searchParams.sorting.direction]],
+      }),
       include: [{ model: Director }],
     });
   } catch (error) {

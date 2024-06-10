@@ -24,7 +24,7 @@ sequelize
     console.log("Database connection has been established successfully!");
     return sequelize.sync({ force: false }); // Sync all models with database every time server restarts
   })
-  .catch((err) => console.error("Unable to co nnect to the database", err));
+  .catch((err) => console.error("Unable to connect to the database", err));
 
 app.use(cors());
 app.use(json());

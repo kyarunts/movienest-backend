@@ -46,15 +46,17 @@ export const validateGetMoviesQuery = (
 
   let parsedRating: [number, number];
 
-  try {
-    parsedRating = JSON.parse(queryString.rating as string);
-  } catch (error) {
-    return next(
-      constructError({ message: `${(error as any).message}`, code: 400 })
-    );
+  if (queryString.rating) {
+    try {
+      parsedRating = JSON.parse(queryString.rating as string);
+    } catch (error) {
+      return next(
+        constructError({ message: `${(error as any).message}`, code: 400 })
+      );
+    }
+  
+    queryString.rating = parsedRating;
   }
-
-  queryString.rating = parsedRating;
 
   const { error, value: validatedQuery } =
     getMoviesQuerySchema.validate(queryString);

@@ -6,7 +6,7 @@ const router = Router();
 
 /**
  * @swagger
- * /users/me:
+ * /api/users/me:
  *   get:
  *     summary: Get the current user
  *     description: Retrieve the details of the currently authenticated user.
@@ -45,7 +45,7 @@ router.get("/users/me", async (req: any, res: Response, next: NextFunction) => {
 
 /**
  * @swagger
- * /users/:ID:
+ * /api/users/:ID:
  *   get:
  *     summary: Get a user by ID
  *     description: Retrieve the details of another user by ID.
@@ -105,7 +105,7 @@ router.get(
 
 /**
  * @swagger
- * /users/:ID:
+ * /api/users/:ID:
  *   put:
  *     summary: Update a user by ID
  *     description: Update the details of a user by ID.
